@@ -1,35 +1,68 @@
 PHIẾU CÁ NHÂN — DAY 14
 Annotation nộp bằng Save/completed trên CVAT. Coach thu/review riêng.
 
-Packet / slot / case / lượt:
-Task / job:
+Packet / slot / case / lượt:1
+Task / job: 3D Vehicle Object Tracking - LiDAR Point Cloud Annotation
 Track CVAT / object được giao:
-Phạm vi local frame / source frame:
+Track ID 0: Vehicle 1 (xuất hiện frame 0-65)
+Track ID 1: Vehicle 2 (xuất hiện frame 0-23)
+Track ID 2: Vehicle 3 (xuất hiện frame 0-2, 5-22, 24)
+Phạm vi local frame / source frame: Frame 0 đến Frame 65 (tổng cộng 66 frames)
 Guideline / profile calibration đã đọc:
 
 Frame fit và lý do:
+Tất cả 3 track có keyframe được đánh dấu tại các điểm quan trọng
+Một số frame non-keyframe: frame 19, 58, 64, 65 (nội suy tự động)
 L / W / H (m):
+Track 0: Length = 4.11m, Width = 2.11m, Height = 1.67m (không đổi qua các frame)
+Track 1: Length = 4.25m, Width = 1.85m, Height = 1.82m (không đổi qua các frame)
+Track 2: Length = 3.9m, Width = 1.71m, Height = 1.73-1.81m
 Keyframe quan trọng và lý do:
+Frame 0: Khởi động tracking, tất cả 3 vehicles có keyframe
+Frame 5: Track 2 tái xuất hiện, đánh keyframe
+Frame 19: Track 0 là non-keyframe (nội suy), Track 1, 2 vẫn là keyframe
+Frame 23: Khung cuối cùng Track 1 xuất hiện
+Frame 58: Track 0 là non-keyframe (interpolation)
+Frame 64-65: Track 0 là non-keyframe (cuối sequence)
 Frame nội suy đã kiểm:
+Frame 19: Track 0 non-keyframe (interpolated between frame 18 và 20)
+Frame 58: Track 0 non-keyframe (interpolated between frame 57 và 59)
+Frame 64: Track 0 non-keyframe
+Frame 65: Track 0 non-keyframe
 Đoạn thưa / che khuất / dễ nhầm identity:
 
 Phát hiện temporal và frame/evidence:
+Track 0: Chuyển động liên tục X: -23.4 → -18.72, Y: 4.32 → 0.14 (dịch chuyển sang phải và xuống)
+Track 1: Chuyển động frame 0-23, Y thay đổi đáng kể -17.68 → -42.87 (chuyển động nhanh về phía dưới)
+Track 2: Xuất hiện gián đoạn (frame 0-2, 5-22, 24) - cần kiểm tra lý do bị mất
 Quyết định độc lập trước review:
 Phản hồi nhận được:
 Hành động sau review và lý do:
 
 Ca bình thường Camera–LiDAR (frame/camera/quan sát):
+Frame 0-10: Track 0, 1 ổn định, Track 2 hợp lệ
+Frame 25-65: Chỉ Track 0, chuyển động ổn định, occluded=false
 Ca khó (frame/camera/quan sát 2D, 3D):
+Frame 19: Track 0 nội suy (non-keyframe), cần đánh giá độ chính xác
+Frame 3-4: Track 2 biến mất đột ngột, sau đó tái xuất frame 5
+Frame 23-24: Track 1 và Track 2 cùng biến mất
 Giả thuyết nguyên nhân / giới hạn kết luận:
+Track 2 bị mất frame 3-4: Có thể do occlusion hoặc rời khỏi scene
+Track 1 chấm dứt frame 23: Có thể do rời khỏi LiDAR range
+Không đủ bằng chứng để xác định nguyên nhân chính xác (cần xem video)
 Hành động sửa / giữ / escalation và người nhận:
 
 Đã Save và mở lại kiểm:
 Trạng thái job cuối / blocker:
-
+Dữ liệu JSON hoàn chỉnh 66 frames
+Tất cả annotation đều có label_id=0 (vehicles) và occluded=false
+Không phát hiện blocker từ structure JSON
 TỔNG KẾT BỘ JOB
-Job đã bắt đầu:
-Job đã Save/completed:
-Job chưa bắt đầu:
-Job còn cần rework / blocker:
+Job đã bắt đầu:3 tracks (Vehicle tracking job)
+Job đã Save/completed:đã Save
+Job chưa bắt đầu:không có
+Job còn cần rework / blocker: Cần verify Frame 19, 58, 64, 65 (non-keyframe interpolation)
+Cần kiểm tra lý do Track 2 mất ở frame 3-4
+Cần kiểm tra Track 1 tại frame 23 (điểm kết thúc)
 Mẫu peer check và phản hồi:
-Thời gian làm J01 / mini-job / self-QC:
+Thời gian làm J01 / mini-job / self-QC: 2 tiếng
